@@ -62,6 +62,7 @@ public:
 	// game events
 	virtual void OnTick(fpsent* player) {};
 	virtual void OnUpdate(ImDrawData* context) {};
+	virtual void OnKey(keym* key) {};
 
 	// rendering events
 	// I should probably drop imgui events into here via a function

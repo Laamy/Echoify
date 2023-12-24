@@ -17,6 +17,11 @@ void execbindDetour(keym* k, bool isdown) { // isdown arguemnt is useless btw cu
 			mod->Toggle();
 	}
 
+	// trigger module key events
+	for (Module* mod : modules)
+		if (mod->enabled)
+			mod->OnKey(k);
+
 	// debug
 	if (Game::debugScreen) {
 		std::cout << "'" << k->name << "'" << std::endl;

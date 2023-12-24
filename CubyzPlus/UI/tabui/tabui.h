@@ -22,6 +22,15 @@ public:
     };
 
     std::vector<std::string> categories = { "Combat", "Movement", "Visual" };
+    int selectedCategory = 0;
+
+    void Next() {
+        selectedCategory = (selectedCategory + 1) % categories.size();
+    }
+
+    void Prev() {
+        selectedCategory = (selectedCategory - 1 + categories.size()) % categories.size();
+    }
 
     void Draw()
     {
@@ -57,22 +66,28 @@ public:
             /// @end Child
 
             /// @begin Child
+            int sel = 0;
             for (std::string i : this->categories) { // each category is 28 pixels down from each others each tops
-                std::cout << i << std::endl;
+                /*if (selectedCategory == sel)
+                    ImGui::PushStyleColor(ImGuiCol_ChildBg, 0xff323432);*/
 
                 ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
-                ImGui::BeginChild((std::string("child") + i).c_str(), {100, 24}, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
+                ImGui::BeginChild((std::string("child") + i).c_str(), { 100, 24 }, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
                 {
                     /// @separator
 
                     /// @begin Text
-                    ImGui::TextUnformatted(i.c_str());
+                    if (selectedCategory == sel)
+                        ImGui::TextUnformatted((std::string(">") + i).c_str());
+                    else
+                        ImGui::TextUnformatted(i.c_str());
                     /// @end Text
 
                     /// @separator
                     ImGui::EndChild();
                 }
                 ImGui::PopStyleColor();
+                sel++;
             }
             /// @end Child
 
