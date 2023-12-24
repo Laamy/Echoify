@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="Console.h" />
     <ClInclude Include="FileIO.h" />
+    <ClInclude Include="Fonts\productsans_compressed.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCore\Ent\dynent.h" />
     <ClInclude Include="GameCore\Ent\physent.h" />
@@ -201,14 +202,17 @@
     <ClInclude Include="Module\ModuleManager.h" />
     <ClInclude Include="Module\Modules\Aimbot.h" />
     <ClInclude Include="Module\Modules\ESP.h" />
+    <ClInclude Include="Module\Modules\TabUI.h" />
     <ClInclude Include="Module\Modules\Tracers.h" />
     <ClInclude Include="Module\Modules\Flight.h" />
     <ClInclude Include="Module\Modules\ImShort.h" />
     <ClInclude Include="Module\Modules\InfAmmo.h" />
     <ClInclude Include="Module\Modules\Speed.h" />
     <ClInclude Include="Module\Setting.h" />
+    <ClInclude Include="UI\tabui\tabui.h" />
+    <ClInclude Include="UI\tabui\tabui_category.h" />
     <ClInclude Include="Utils\MemoryUtils.h" />
-    <ClInclude Include="Windows\ModuleList.h" />
+    <ClInclude Include="UI\ModuleList.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

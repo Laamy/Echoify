@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CubyzPlus", "CubyzPlus\CubyzPlus.vcxproj", "{6477E499-B47F-40C9-8D35-8D5A572C60F6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Echoify", "CubyzPlus\CubyzPlus.vcxproj", "{6477E499-B47F-40C9-8D35-8D5A572C60F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

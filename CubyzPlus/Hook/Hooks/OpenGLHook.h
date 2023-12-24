@@ -4,7 +4,7 @@ void* wglSwapBuffers;
 // orig callback
 static std::add_pointer_t<BOOL WINAPI(HDC)> __o__wglSwapBuffers;
 
-#include "../../Windows/ModuleList.h"
+#include "../../Fonts/productsans_compressed.h"
 
 #include <TlHelp32.h>
 
@@ -34,6 +34,9 @@ void DrawFrame(ImDrawData* context)
 		ImGui::SetNextWindowSize(ImVec2(1920, 1080), ImGuiCond_FirstUseEver);
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
 		ImGui::Begin("Echoify Menu by yeemi#0", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar);
+
+		// fix font default scale
+		ImGui::SetWindowFontScale(0.30f);
 
 		if (Game::GetLocalPlayer() == nullptr)
 		{
@@ -117,6 +120,9 @@ void DrawFrame(ImDrawData* context)
 		ImGui::SetNextWindowPos(ImVec2(0, dims.y/2));
 		ImGui::Begin("Echoify Menu by yeemi#0", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar);
 
+		// fix font default scale
+		ImGui::SetWindowFontScale(0.40f);
+
 		// render MODULES
 		for (Module* mod : modules) {
 			std::stringstream ss;
@@ -159,46 +165,9 @@ static BOOL wglSwapBuffersDetour(HDC hdc) {
 	return __o__wglSwapBuffers(hdc);
 }
 
-struct handle_data {
-	unsigned long process_id;
-	HWND window_handle;
-};
-
-BOOL CALLBACK enum_windows_callback(HWND handle, LPARAM lParam);
-BOOL is_main_window(HWND handle);
-
-//HWND find_main_window(unsigned long process_id)
-//{
-//	handle_data data;
-//	data.process_id = process_id;
-//	data.window_handle = 0;
-//	EnumWindows(enum_windows_callback, (LPARAM)&data);
-//	return data.window_handle;
-//}
-//
-//BOOL CALLBACK enum_windows_callback(HWND handle, LPARAM lParam)
-//{
-//	handle_data& data = *(handle_data*)lParam;
-//	unsigned long process_id = 0;
-//	GetWindowThreadProcessId(handle, &process_id);
-//	if (data.process_id != process_id)
-//		return TRUE;
-//	data.window_handle = handle;
-//	return FALSE;
-//}
-//
-//BOOL is_main_window(HWND handle)
-//{
-//	return GetWindow(handle, GW_OWNER) == (HWND)0 && IsWindowVisible(handle);
-//}
-
 class OpenGLHook : public FuncHook {
 public:
 	void* GetGameHWND() {
-		// get window of title "Cubyz ALPHA 0.12.0"
-
-		std::cout << FindWindowA(nullptr, "Cube 2: Sauerbraten") << std::endl;
-
 		return FindWindowA(nullptr, "Cube 2: Sauerbraten");
 	}
 
@@ -217,6 +186,10 @@ public:
 			ImGuiIO& io = ImGui::GetIO();
 			io.IniFilename = io.LogFilename = nullptr; // dont save
 			io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // enable keyboard controls
+
+			// load the compressed fonts (product sans)
+			ImGui::GetIO().Fonts->AddFontFromMemoryCompressedTTF(ProductSans_compressed_data, ProductSans_compressed_size, 48.f);
+			ImGui::GetIO().Fonts->Build();
 		}
 
 		if (not HookFunction((void*)wglSwapBuffers, &wglSwapBuffersDetour, &__o__wglSwapBuffers))

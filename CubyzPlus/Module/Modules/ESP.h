@@ -18,7 +18,7 @@ public:
 				if (plyr->GetTeam() == Game::GetLocalPlayer()->GetTeam())
 					colour = ImColor(0, 255, 0);
 
-				list->AddText(ImVec2(screenOut.x - 8, screenOut.y - 20), colour, plyr->GetName().c_str());
+				list->AddText(NULL, 18, ImVec2(screenOut.x - 8, screenOut.y - 20), colour, plyr->GetName().c_str());
 				list->AddRect(ImVec2(screenOut.x - 8, screenOut.y - 8), ImVec2(screenOut.x + 8, screenOut.y + 15), colour, 1);
 			}
 		}

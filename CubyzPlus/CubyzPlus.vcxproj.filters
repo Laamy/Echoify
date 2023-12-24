@@ -185,7 +185,7 @@
     <ClInclude Include="Module\Modules\Speed.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Windows\ModuleList.h">
+    <ClInclude Include="UI\ModuleList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Module\Setting.h">
@@ -198,6 +198,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Module\Modules\Aimbot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\tabui\tabui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\tabui\tabui_category.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Modules\TabUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Fonts\productsans_compressed.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

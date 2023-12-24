@@ -7,6 +7,7 @@
 #include "Modules/Tracers.h"
 #include "Modules/ESP.h"
 #include "Modules/Aimbot.h"
+#include "Modules/TabUI.h"
 
 void InitMods() {
 	modules.push_back(new InfAmmo());
@@ -16,4 +17,5 @@ void InitMods() {
 	modules.push_back(new Tracers());
 	modules.push_back(new ESP());
 	modules.push_back(new Aimbot());
+	modules.push_back(new TabUI());
 }
