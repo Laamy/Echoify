@@ -20,7 +20,7 @@ public:
 		if (key->pressed && strcmp(key->name, "DOWN") == 0)
 			tabui.Next();
 
-		std::cout << key->name << std::endl;
+		//std::cout << key->name << std::endl;
 	}
 
 	// these two are not needed yet but might be useful in the future so I've left them
