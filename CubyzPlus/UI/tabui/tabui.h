@@ -90,7 +90,7 @@ public:
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 2, 2 });
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 2, 2 });
         ImGui::SetNextWindowPos(tabuiPos);
-        ImGui::SetNextWindowSize({ 104, ((this->categories.size() + 1) * 28.f) - 4 }, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize({ 104, ((this->categories.size() + 1) * 26.f) + 2 }, ImGuiCond_FirstUseEver);
         if (this->isOpen && ImGui::Begin("title###Tabui", &this->isOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
         {
             // fix font default scale

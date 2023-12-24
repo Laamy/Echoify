@@ -17,8 +17,8 @@ void InitMods() {
 	modules.push_back(new ESP());
 	modules.push_back(new ImShort());
 
-	modules.push_back(new Speed());
 	modules.push_back(new Flight());
+	modules.push_back(new Speed());
 
 	modules.push_back(new InfAmmo());
 

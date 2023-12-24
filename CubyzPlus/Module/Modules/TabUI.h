@@ -7,7 +7,7 @@ Tabui tabui;
 
 class TabUI : public Module {
 public:
-	TabUI() : Module::Module("TabUI", "Visual", "Allow ease of access to modules", "yeemi#0", "V") {};
+	TabUI() : Module::Module("TabUI", "Visual", "Allow ease of access to modules", "yeemi#0", "INSERT", true) {};
 
 	// might make this always draw regardless of module enable state
 	void OnUpdate(ImDrawData* context) override {

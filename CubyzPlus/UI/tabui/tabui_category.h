@@ -36,7 +36,7 @@ public:
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 2, 2 });
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 2, 2 });
         ImGui::SetNextWindowPos(nextPos);
-        ImGui::SetNextWindowSize({ 104, (28.f * (float)catModules.size()) - 4.f }, ImGuiCond_Always);
+        ImGui::SetNextWindowSize({ 104, (26.f * (float)catModules.size()) + 2 }, ImGuiCond_Always);
         if (isOpen && ImGui::Begin("title###Tabui_category", &isOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
         {
             /// @separator

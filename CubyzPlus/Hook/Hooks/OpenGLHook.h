@@ -112,30 +112,30 @@ void DrawFrame(ImDrawData* context)
 
 		ImGui::End();
 	}
-	else // modules arraylist
-	{
-		ImVec2 dims = ImGui::GetIO().DisplaySize;//ImVec2(1920, 1080);
+	//else // modules arraylist
+	//{
+	//	ImVec2 dims = ImGui::GetIO().DisplaySize;//ImVec2(1920, 1080);
 
-		ImGui::SetNextWindowSize(dims, ImGuiCond_FirstUseEver);
-		ImGui::SetNextWindowPos(ImVec2(0, dims.y/2));
-		ImGui::Begin("Echoify Menu by yeemi#0", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar);
+	//	ImGui::SetNextWindowSize(dims, ImGuiCond_FirstUseEver);
+	//	ImGui::SetNextWindowPos(ImVec2(0, dims.y/2));
+	//	ImGui::Begin("Echoify Menu by yeemi#0", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar);
 
-		// fix font default scale
-		ImGui::SetWindowFontScale(0.40f);
+	//	// fix font default scale
+	//	ImGui::SetWindowFontScale(0.40f);
 
-		// render MODULES
-		for (Module* mod : modules) {
-			std::stringstream ss;
+	//	// render MODULES
+	//	for (Module* mod : modules) {
+	//		std::stringstream ss;
 
-			ss << mod->name.c_str() << " [" << mod->keybind.c_str() << "]";
+	//		ss << mod->name.c_str() << " [" << mod->keybind.c_str() << "]";
 
-			ImGui::TextColored(mod->enabled == true ? ImVec4(0, 1, 0, 1) : ImVec4(1, 0, 0, 1), ss.str().c_str());
-		}
+	//		ImGui::TextColored(mod->enabled == true ? ImVec4(0, 1, 0, 1) : ImVec4(1, 0, 0, 1), ss.str().c_str());
+	//	}
 
-		ImGui::End();
+	//	ImGui::End();
 
-		//RenderModuleList();
-	}
+	//	//RenderModuleList();
+	//}
 }
 
 static BOOL wglSwapBuffersDetour(HDC hdc) {

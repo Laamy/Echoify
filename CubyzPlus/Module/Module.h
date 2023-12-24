@@ -16,12 +16,13 @@ public:
 	bool enabled = false;
 
 	// constructor for module
-	Module(std::string name, std::string category, std::string description, std::string author, std::string keybind) {
+	Module(std::string name, std::string category, std::string description, std::string author, std::string keybind, bool enabled = false) {
 		this->name = name;
 		this->category = category;
 		this->description = description;
 		this->author = author;
 		this->keybind = keybind;
+		SetEnabled(enabled);
 
 		addBool("Drawn", "Draw in the arraylist", &visible);
 		std::cout << "[*] Module Created " << name << std::endl;
