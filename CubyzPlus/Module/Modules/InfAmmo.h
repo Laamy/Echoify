@@ -2,7 +2,7 @@
 
 class InfAmmo : public Module {
 public:
-	InfAmmo() : Module::Module("InfAmmo", "Infinite Ammo", "yeemi#0", "P") {};
+	InfAmmo() : Module::Module("InfAmmo", "Player", "Infinite Ammo", "yeemi#0", "P") {};
 
 	void OnTick(fpsent* player) override {
 		// setup current gun ammo to 999

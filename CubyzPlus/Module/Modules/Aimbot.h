@@ -2,7 +2,7 @@
 
 class Aimbot : public Module {
 public:
-	Aimbot() : Module::Module("Aimbot", "Automatically aim towards the closest player", "yeemi#0", "B") {};
+	Aimbot() : Module::Module("Aimbot", "Combat", "Automatically aim towards the closest player", "yeemi#0", "B") {};
 
 	float lerp(float a, float b, float t) {
 		return a + t * (b - a);

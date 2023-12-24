@@ -6,6 +6,7 @@
 class Module {
 public:
 	std::string name;
+	std::string category;
 	std::string description;
 	std::string author;
 	std::string keybind;
@@ -15,8 +16,9 @@ public:
 	bool enabled = false;
 
 	// constructor for module
-	Module(std::string name, std::string description, std::string author, std::string keybind) {
+	Module(std::string name, std::string category, std::string description, std::string author, std::string keybind) {
 		this->name = name;
+		this->category = category;
 		this->description = description;
 		this->author = author;
 		this->keybind = keybind;

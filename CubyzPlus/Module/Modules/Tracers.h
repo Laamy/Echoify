@@ -2,7 +2,7 @@
 
 class Tracers : public Module {
 public:
-	Tracers() : Module::Module("Tracers", "Draw lines from bottom of the screen to players nearby", "yeemi#0", "M") {};
+	Tracers() : Module::Module("Tracers", "Visual", "Draw lines from bottom of the screen to players nearby", "yeemi#0", "M") {};
 
 	void OnUpdate(ImDrawData* context) override {
 

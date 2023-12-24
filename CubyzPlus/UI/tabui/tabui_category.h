@@ -21,17 +21,21 @@ public:
         isOpen = false;
     };
 
-    void Draw()
+    void Draw(ImVec2 nextPos)
     {
         /// @style Dark
         /// @unit px
         /// @begin TopWindow
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 2, 2 });
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 2, 2 });
+        ImGui::SetNextWindowPos(nextPos);
         ImGui::SetNextWindowSize({ 104, 158 }, ImGuiCond_FirstUseEver);
-        if (isOpen && ImGui::Begin("title###Tabui", &isOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
+        if (isOpen && ImGui::Begin("title###Tabui_category", &isOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
         {
             /// @separator
+
+            // fix font default scale
+            ImGui::SetWindowFontScale(0.41f);
 
             // TODO: Add Draw calls of dependant popup windows here
 

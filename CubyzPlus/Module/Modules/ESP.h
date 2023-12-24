@@ -2,7 +2,7 @@
 
 class ESP : public Module {
 public:
-	ESP() : Module::Module("ESP", "Draw boxes with info around players", "yeemi#0", "N") {};
+	ESP() : Module::Module("ESP", "Visual", "Draw boxes with info around players", "yeemi#0", "N") {};
 
 	void OnUpdate(ImDrawData* context) override {
 

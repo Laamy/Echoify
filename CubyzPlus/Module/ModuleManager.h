@@ -10,12 +10,26 @@
 #include "Modules/TabUI.h"
 
 void InitMods() {
-	modules.push_back(new InfAmmo());
-	modules.push_back(new ImShort());
-	modules.push_back(new Speed());
-	modules.push_back(new Flight());
+	modules.push_back(new Aimbot());
+
+	modules.push_back(new TabUI());
 	modules.push_back(new Tracers());
 	modules.push_back(new ESP());
-	modules.push_back(new Aimbot());
-	modules.push_back(new TabUI());
+	modules.push_back(new ImShort());
+
+	modules.push_back(new Speed());
+	modules.push_back(new Flight());
+
+	modules.push_back(new InfAmmo());
+
+	for (Module* mod : modules) {
+		bool has = false;
+		for (std::string cat : tabui.categories) {
+			if (mod->category == cat)
+				has = true;
+		}
+
+		if (!has)
+			tabui.categories.push_back(mod->category);
+	}
 }

@@ -2,7 +2,7 @@
 
 class ImShort : public Module {
 public:
-	ImShort() : Module::Module("ImShort", "Makes you short", "yeemi#0", "K") {};
+	ImShort() : Module::Module("ImShort", "Visual", "Makes you short", "yeemi#0", "K") {};
 
 	void OnTick(fpsent* player) override {
 		// set eyeheight to 1 (default is 4.6-ish)

@@ -2,7 +2,7 @@
 
 class Speed : public Module {
 public:
-	Speed() : Module::Module("Speed", "Speed utility", "yeemi#0", "O") {};
+	Speed() : Module::Module("Speed", "Movement", "Speed utility", "yeemi#0", "O") {};
 
 	float speed = 3;
 

@@ -2,7 +2,7 @@
 
 class Flight : public Module {
 public:
-    Flight() : Module::Module("Flight", "Fancy PI flight", "yeemi#0", "J") {};
+    Flight() : Module::Module("Flight", "Movement", "Fancy PI flight", "yeemi#0", "J") {};
 
     float speed = 2.5f;
 

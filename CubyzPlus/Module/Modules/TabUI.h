@@ -1,16 +1,17 @@
 #pragma once
 
+#include "../../UI/tabui/tabui_category.h"
 #include "../../UI/tabui/tabui.h"
 
 Tabui tabui;
 
 class TabUI : public Module {
 public:
-	TabUI() : Module::Module("TabUI", "Allow ease of access to modules", "yeemi#0", "V") {};
+	TabUI() : Module::Module("TabUI", "Visual", "Allow ease of access to modules", "yeemi#0", "V") {};
 
 	// might make this always draw regardless of module enable state
 	void OnUpdate(ImDrawData* context) override {
-		tabui.Draw(); 
+		tabui.Draw();
 	}
 
 	void OnKey(keym* key) override {
@@ -19,6 +20,12 @@ public:
 
 		if (key->pressed && strcmp(key->name, "DOWN") == 0)
 			tabui.Next();
+
+		if (key->pressed && strcmp(key->name, "RIGHT") == 0)
+			tabui.Enter();
+
+		if (key->pressed && strcmp(key->name, "LEFT") == 0)
+			tabui.Exit();
 
 		//std::cout << key->name << std::endl;
 	}

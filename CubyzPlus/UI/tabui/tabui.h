@@ -21,15 +21,41 @@ public:
         this->isOpen = false;
     };
 
-    std::vector<std::string> categories = { "Combat", "Movement", "Visual" };
+    std::vector<std::string> categories = {};
+
     int selectedCategory = 0;
+    int selectedModule = 0;
+
+    bool inCategory = false;
+
+    TabuiCategory category;
+
+    ImVec2 tabuiPos = ImVec2(50, 50);
 
     void Next() {
-        selectedCategory = (selectedCategory + 1) % categories.size();
+        if (!inCategory)
+            selectedCategory = (selectedCategory + 1) % categories.size();
+        else {
+            // not implemented
+        }
     }
 
     void Prev() {
-        selectedCategory = (selectedCategory - 1 + categories.size()) % categories.size();
+        if (!inCategory)
+            selectedCategory = (selectedCategory - 1 + categories.size()) % categories.size();
+        else {
+            // not implemented
+        }
+    }
+
+    void Enter() {
+        inCategory = true;
+        category.Open();
+    }
+
+    void Exit() {
+        inCategory = false;
+        category.Close();
     }
 
     void Draw()
@@ -39,6 +65,7 @@ public:
         /// @begin TopWindow
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 2, 2 });
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 2, 2 });
+        ImGui::SetNextWindowPos(tabuiPos);
         ImGui::SetNextWindowSize({ 104, ((this->categories.size() + 1) * 28.f) - 4 }, ImGuiCond_FirstUseEver);
         if (this->isOpen && ImGui::Begin("title###Tabui", &this->isOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
         {
@@ -71,14 +98,17 @@ public:
                 /*if (selectedCategory == sel)
                     ImGui::PushStyleColor(ImGuiCol_ChildBg, 0xff323432);*/
 
-                ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
+                if (selectedCategory == sel)
+                    ImGui::PushStyleColor(ImGuiCol_ChildBg, 0xff323432);
+                else
+                    ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
                 ImGui::BeginChild((std::string("child") + i).c_str(), { 100, 24 }, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
                 {
                     /// @separator
 
                     /// @begin Text
                     if (selectedCategory == sel)
-                        ImGui::TextUnformatted((std::string(">") + i).c_str());
+                        ImGui::TextUnformatted((std::string(" ") + i).c_str());
                     else
                         ImGui::TextUnformatted(i.c_str());
                     /// @end Text
@@ -97,6 +127,11 @@ public:
         ImGui::PopStyleVar();
         ImGui::PopStyleVar();
         /// @end TopWindow
+
+        //lets check if we're in a category then draw one if we are...
+        if (inCategory) {
+            category.Draw(ImVec2(tabuiPos.x + 104, (tabuiPos.y + 24) + (selectedCategory * 28)));// ignore for now
+        }
     }
 
     /// @end interface
