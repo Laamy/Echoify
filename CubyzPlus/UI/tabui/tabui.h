@@ -32,11 +32,24 @@ public:
 
     ImVec2 tabuiPos = ImVec2(50, 50);
 
+    std::vector<Module*> GetCatMods() {
+        std::vector<Module*> catModules;
+
+        for (Module* mod : modules) {
+            if (mod->category == categories[selectedCategory])
+                catModules.push_back(mod);
+        }
+
+        return catModules;
+    }
+
     void Next() {
         if (!inCategory)
             selectedCategory = (selectedCategory + 1) % categories.size();
         else {
-            // not implemented
+            std::vector<Module*> catModules = GetCatMods();
+
+            selectedModule = (selectedModule + 1) % catModules.size();
         }
     }
 
@@ -44,11 +57,22 @@ public:
         if (!inCategory)
             selectedCategory = (selectedCategory - 1 + categories.size()) % categories.size();
         else {
-            // not implemented
+            std::vector<Module*> catModules = GetCatMods();
+
+            selectedModule = (selectedModule - 1) % catModules.size();
         }
     }
 
     void Enter() {
+        if (inCategory) {
+            std::vector<Module*> catModules = GetCatMods();
+
+            catModules[selectedModule]->Toggle();
+        }
+
+        if (selectedModule >= GetCatMods().size())
+            selectedModule = GetCatMods().size() - 1;
+        
         inCategory = true;
         category.Open();
     }

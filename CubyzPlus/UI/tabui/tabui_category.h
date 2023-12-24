@@ -49,10 +49,21 @@ public:
             /// @begin Child
             int sel = 0;
             for (Module* mod : catModules) {
+
                 if (sel == selectedModule)
-                    ImGui::PushStyleColor(ImGuiCol_ChildBg, 0xff323432);
+                {
+                    if (mod->enabled)
+                        ImGui::PushStyleColor(ImGuiCol_ChildBg, 0xff005530);
+                    else
+                        ImGui::PushStyleColor(ImGuiCol_ChildBg, 0xff323432);
+                }
                 else
-                    ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
+                {
+                    if (mod->enabled)
+                        ImGui::PushStyleColor(ImGuiCol_ChildBg, 0xff006633);
+                    else
+                        ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
+                }
 
                 ImGui::BeginChild((std::string("child") + mod->name).c_str(), {100, 24}, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
                 {
