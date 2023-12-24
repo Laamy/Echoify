@@ -21,6 +21,8 @@ public:
         this->isOpen = false;
     };
 
+    std::vector<std::string> categories = { "Combat", "Movement", "Visual" };
+
     void Draw()
     {
         /// @style Dark
@@ -28,7 +30,7 @@ public:
         /// @begin TopWindow
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 2, 2 });
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 2, 2 });
-        ImGui::SetNextWindowSize({ 104, 158 }, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize({ 104, ((this->categories.size() + 1) * 28.f) - 4 }, ImGuiCond_FirstUseEver);
         if (this->isOpen && ImGui::Begin("title###Tabui", &this->isOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
         {
             // fix font default scale
@@ -55,83 +57,23 @@ public:
             /// @end Child
 
             /// @begin Child
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
-            ImGui::BeginChild("child2", { 100, 24 }, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
-            {
-                /// @separator
+            for (std::string i : this->categories) { // each category is 28 pixels down from each others each tops
+                std::cout << i << std::endl;
 
-                /// @begin Text
-                ImGui::TextUnformatted("Combat");
-                /// @end Text
+                ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
+                ImGui::BeginChild((std::string("child") + i).c_str(), {100, 24}, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
+                {
+                    /// @separator
 
-                /// @separator
-                ImGui::EndChild();
+                    /// @begin Text
+                    ImGui::TextUnformatted(i.c_str());
+                    /// @end Text
+
+                    /// @separator
+                    ImGui::EndChild();
+                }
+                ImGui::PopStyleColor();
             }
-            ImGui::PopStyleColor();
-            /// @end Child
-
-            /// @begin Child
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
-            ImGui::BeginChild("child3", { 100, 24 }, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
-            {
-                /// @separator
-
-                /// @begin Text
-                ImGui::TextUnformatted("Movement");
-                /// @end Text
-
-                /// @separator
-                ImGui::EndChild();
-            }
-            ImGui::PopStyleColor();
-            /// @end Child
-
-            /// @begin Child
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
-            ImGui::BeginChild("child4", { 100, 24 }, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
-            {
-                /// @separator
-
-                /// @begin Text
-                ImGui::TextUnformatted("World");
-                /// @end Text
-
-                /// @separator
-                ImGui::EndChild();
-            }
-            ImGui::PopStyleColor();
-            /// @end Child
-
-            /// @begin Child
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, 0xff323432);
-            ImGui::BeginChild("child5", { 100, 24 }, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
-            {
-                /// @separator
-
-                /// @begin Text
-                ImGui::TextUnformatted(" Visual");
-                /// @end Text
-
-                /// @separator
-                ImGui::EndChild();
-            }
-            ImGui::PopStyleColor();
-            /// @end Child
-
-            /// @begin Child
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
-            ImGui::BeginChild("child6", { 100, 24 }, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
-            {
-                /// @separator
-
-                /// @begin Text
-                ImGui::TextUnformatted("Misc");
-                /// @end Text
-
-                /// @separator
-                ImGui::EndChild();
-            }
-            ImGui::PopStyleColor();
             /// @end Child
 
             /// @separator
