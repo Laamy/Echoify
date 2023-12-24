@@ -130,7 +130,7 @@ public:
 
         //lets check if we're in a category then draw one if we are...
         if (inCategory) {
-            category.Draw(ImVec2(tabuiPos.x + 104, (tabuiPos.y + 24) + (selectedCategory * 28)));// ignore for now
+            category.Draw(categories[selectedCategory], selectedModule, ImVec2(tabuiPos.x + 104, (tabuiPos.y + 24) + (selectedCategory * 28)));// ignore for now
         }
     }
 

@@ -21,15 +21,22 @@ public:
         isOpen = false;
     };
 
-    void Draw(ImVec2 nextPos)
+    void Draw(std::string category, int selectedModule, ImVec2 nextPos)
     {
+        std::vector<Module*> catModules;
+
+        for (Module* mod : modules) {
+            if (mod->category == category)
+                catModules.push_back(mod);
+        }
+
         /// @style Dark
         /// @unit px
         /// @begin TopWindow
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 2, 2 });
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 2, 2 });
         ImGui::SetNextWindowPos(nextPos);
-        ImGui::SetNextWindowSize({ 104, 158 }, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize({ 104, (28.f * (float)catModules.size()) - 4.f }, ImGuiCond_Always);
         if (isOpen && ImGui::Begin("title###Tabui_category", &isOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
         {
             /// @separator
@@ -40,99 +47,30 @@ public:
             // TODO: Add Draw calls of dependant popup windows here
 
             /// @begin Child
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
-            ImGui::BeginChild("child1", { 100, 24 }, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
-            {
-                /// @separator
+            int sel = 0;
+            for (Module* mod : catModules) {
+                if (sel == selectedModule)
+                    ImGui::PushStyleColor(ImGuiCol_ChildBg, 0xff323432);
+                else
+                    ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
 
-                /// @begin Text
-                ImGui::TextUnformatted("ClickTP");
-                /// @end Text
+                ImGui::BeginChild((std::string("child") + mod->name).c_str(), {100, 24}, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
+                {
+                    /// @separator
 
-                /// @separator
-                ImGui::EndChild();
+                    /// @begin Text
+                    if (sel == selectedModule)
+                        ImGui::TextUnformatted((std::string(" ") + mod->name).c_str());
+                    else
+                        ImGui::TextUnformatted(mod->name.c_str());
+                    /// @end Text
+
+                    /// @separator
+                    ImGui::EndChild();
+                }
+                ImGui::PopStyleColor();
+                sel++;
             }
-            ImGui::PopStyleColor();
-            /// @end Child
-
-            /// @begin Child
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
-            ImGui::BeginChild("child2", { 100, 24 }, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
-            {
-                /// @separator
-
-                /// @begin Text
-                ImGui::TextUnformatted("Disabler");
-                /// @end Text
-
-                /// @separator
-                ImGui::EndChild();
-            }
-            ImGui::PopStyleColor();
-            /// @end Child
-
-            /// @begin Child
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
-            ImGui::BeginChild("child3", { 100, 24 }, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
-            {
-                /// @separator
-
-                /// @begin Text
-                ImGui::TextUnformatted("Franky");
-                /// @end Text
-
-                /// @separator
-                ImGui::EndChild();
-            }
-            ImGui::PopStyleColor();
-            /// @end Child
-
-            /// @begin Child
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, 0xff323432);
-            ImGui::BeginChild("child4", { 100, 24 }, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
-            {
-                /// @separator
-
-                /// @begin Text
-                ImGui::TextUnformatted(" NetSkip");
-                /// @end Text
-
-                /// @separator
-                ImGui::EndChild();
-            }
-            ImGui::PopStyleColor();
-            /// @end Child
-
-            /// @begin Child
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
-            ImGui::BeginChild("child5", { 100, 24 }, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
-            {
-                /// @separator
-
-                /// @begin Text
-                ImGui::TextUnformatted("NoFall");
-                /// @end Text
-
-                /// @separator
-                ImGui::EndChild();
-            }
-            ImGui::PopStyleColor();
-            /// @end Child
-
-            /// @begin Child
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyle().Colors[ImGuiCol_ChildBg]);
-            ImGui::BeginChild("child6", { 100, 24 }, false, ImGuiWindowFlags_AlwaysUseWindowPadding);
-            {
-                /// @separator
-
-                /// @begin Text
-                ImGui::TextUnformatted("TestModule");
-                /// @end Text
-
-                /// @separator
-                ImGui::EndChild();
-            }
-            ImGui::PopStyleColor();
             /// @end Child
 
             /// @separator
