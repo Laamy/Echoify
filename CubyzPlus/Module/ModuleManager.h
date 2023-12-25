@@ -8,12 +8,15 @@
 #include "Modules/ESP.h"
 #include "Modules/Aimbot.h"
 #include "Modules/TabUI.h"
+#include "Modules/NoClip.h"
+#include "Modules/Tpaura.h"
+#include "Modules/TestModule.h"
 
 void InitMods() { // the commented TODO modules are most likely confirmed modules im gonna be working on
 	// combat
 	modules.push_back(new Aimbot());
 	// TODO: Hitbox - increase a fake hitbox around each player for ghost cheaters
-	// TODO: Tpaura - teleort around the players (or smoothly interpolate) while shooting
+	modules.push_back(new Tpaura());
 
 	// visual
 	modules.push_back(new TabUI());
@@ -35,7 +38,7 @@ void InitMods() { // the commented TODO modules are most likely confirmed module
 	// TODO: StreamerMode - Change your username/ms
 
 	// movement
-	modules.push_back(new Flight());
+	//modules.push_back(new Flight()); 
 	modules.push_back(new Speed());
 	// TODO: AntiVoid - falling into death pits while hacking hard sucks
 	// TODO: FastStop - instantly stop moving when letting go of any keys (velocity, ect)
@@ -46,7 +49,7 @@ void InitMods() { // the commented TODO modules are most likely confirmed module
 	// TODO: Spider - climb walls
 	// TODO: Velocity - nothing modifies ur velocity values other then ur movement keys
 	// TODO: Phase - phase through walls
-	// TODO: NoClip - floors too
+	modules.push_back(new NoClip());
 	// TODO: FreeCam - allow the camera to fly freely
 
 	// world
@@ -59,6 +62,11 @@ void InitMods() { // the commented TODO modules are most likely confirmed module
 	// custom chat commands
 	// more speed options (for bunny hop)
 	// slash friends to filter out friends from aimbot & aura cheats
+
+	// debug stuff
+#ifdef _DEBUG
+	modules.push_back(new TestModule());
+#endif // DEBUG
 
 	for (Module* mod : modules) {
 		bool has = false;

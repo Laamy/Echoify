@@ -7,9 +7,198 @@
 #define MAXSTRLEN 260
 typedef char string[MAXSTRLEN];
 
+
+
+//template<class T>
+//static inline T max(T a, T b)
+//{
+//    return a > b ? a : b;
+//}
+
+//template<class T>
+//static inline T min(T a, T b)
+//{
+//    return a < b ? a : b;
+//}
+
+template<class T, class U>
+static inline T clamp(T a, U b, U c)
+{
+    return max(T(b), min(a, T(c)));
+}
+
+const int fog = 1000; // idk what this is mneant to be ngl
+
+const int MAXWAYPOINTS = USHRT_MAX - 2;
+const int MAXWAYPOINTLINKS = 6;
+const int WAYPOINTRADIUS = 16;
+
+const float MINWPDIST = 4.f;     // is on top of
+const float CLOSEDIST = 32.f;    // is close
+const float FARDIST = 128.f;   // too far to remap close
+const float JUMPMIN = 4.f;     // decides to jump
+const float JUMPMAX = 32.f;    // max jump
+const float SIGHTMIN = 64.f;    // minimum line of sight
+const float SIGHTMAX = 1024.f;  // maximum line of sight
+const float VIEWMIN = 90.f;    // minimum field of view
+const float VIEWMAX = 180.f;   // maximum field of view
+
+float viewdist(int x)
+{
+    return x <= 100 ? clamp((SIGHTMIN + (SIGHTMAX - SIGHTMIN)) / 100.f * float(x), float(SIGHTMIN), float(fog)) : float(fog);
+}
+
+float viewfieldx(int x)
+{
+    return x <= 100 ? clamp((VIEWMIN + (VIEWMAX - VIEWMIN)) / 100.f * float(x), float(VIEWMIN), float(VIEWMAX)) : float(VIEWMAX);
+}
+
+float viewfieldy(int x)
+{
+    return viewfieldx(x) * 3.f / 4.f;
+}
+
 namespace ai
 {
-    class aiinfo;
+    const int NUMPREVNODES = 6;
+    int curtime = 0, lastmillis = 1, elapsedtime = 0, totalmillis = 1; // not ai stuff im just using it regardless
+
+    struct aistate
+    {
+        int type, millis, targtype, target, idle;
+        bool override;
+
+        aistate(int m, int t, int r = -1, int v = -1) : type(t), millis(m), targtype(r), target(v)
+        {
+            reset();
+        }
+        ~aistate() {}
+        aistate() {}
+
+        void reset()
+        {
+            idle = 0;
+            override = false;
+        }
+    };
+
+    enum
+    {
+        AI_S_WAIT = 0,      // waiting for next command
+        AI_S_DEFEND,        // defend goal target
+        AI_S_PURSUE,        // pursue goal target
+        AI_S_INTEREST,      // interest in goal entity
+        AI_S_MAX
+    };
+    
+    enum
+    {
+        AI_T_NODE,
+        AI_T_PLAYER,
+        AI_T_AFFINITY,
+        AI_T_ENTITY,
+        AI_T_MAX
+    };
+
+    struct aiinfo
+    {
+        std::vector<aistate> state;
+        std::vector<int> route;
+        vec target, spot;
+        int enemy, enemyseen, enemymillis, weappref, prevnodes[NUMPREVNODES], targnode, targlast, targtime, targseq,
+            lastrun, lasthunt, lastaction, lastcheck, jumpseed, jumprand, blocktime, huntseq, blockseq, lastaimrnd;
+        float targyaw, targpitch, views[3], aimrnd[3];
+        bool dontmove, becareful, tryreset, trywipe;
+
+        aiinfo()
+        {
+            clearsetup();
+            reset();
+            loopk(3) views[k] = 0.f;
+        }
+        ~aiinfo() {}
+
+        void clearsetup()
+        {
+            weappref = GUN_PISTOL;
+            spot = target = vec(0, 0, 0);
+            lastaction = lasthunt = lastcheck = enemyseen = enemymillis = blocktime = huntseq = blockseq = targtime = targseq = lastaimrnd = 0;
+            lastrun = jumpseed = lastmillis;
+            jumprand = lastmillis + 5000;
+            targnode = targlast = enemy = -1;
+        }
+
+        void clear(bool prev = false)
+        {
+            if (prev) memset(prevnodes, -1, sizeof(prevnodes));
+            route.resize(0);
+        }
+
+        void wipe(bool prev = false)
+        {
+            clear(prev);
+            state.resize(0);
+            addstate(AI_S_WAIT);
+            trywipe = false;
+        }
+
+        void clean(bool tryit = false)
+        {
+            if (!tryit) becareful = dontmove = false;
+            targyaw = rnd(360);
+            targpitch = 0.f;
+            tryreset = tryit;
+        }
+
+        void reset(bool tryit = false) { wipe(); clean(tryit); }
+
+        bool hasprevnode(int n) const
+        {
+            loopi(NUMPREVNODES) if (prevnodes[i] == n) return true;
+            return false;
+        }
+
+        void addprevnode(int n)
+        {
+            if (prevnodes[0] != n)
+            {
+                memmove(&prevnodes[1], prevnodes, sizeof(prevnodes) - sizeof(prevnodes[0]));
+                prevnodes[0] = n;
+            }
+        }
+
+        aistate& addstate(int t, int r = -1, int v = -1)
+        {
+            aistate stateC = aistate(lastmillis, t, r, v);
+            state.push_back(stateC);
+            return stateC;
+        }
+
+        void removestate(int index = -1)
+        {
+            //if (index < 0) state.pop_back();
+            /*else if (state.range(index)) state.remove(index);
+            if (!state.size()) addstate(AI_S_WAIT);*/
+        }
+
+        aistate& getstate(int idx = -1)
+        {
+            /*if (state.inrange(idx)) return state[idx];
+            return state.end();*/
+        }
+
+        aistate& switchstate(aistate& b, int t, int r = -1, int v = -1)
+        {
+            if ((b.type == t && b.targtype == r) || (b.type == AI_S_INTEREST && b.targtype == AI_T_NODE))
+            {
+                b.millis = lastmillis;
+                b.target = v;
+                b.reset();
+                return b;
+            }
+            return addstate(t, r, v);
+        }
+    };
 }
 
 enum { PRIV_NONE = 0, PRIV_MASTER, PRIV_AUTH, PRIV_ADMIN };
@@ -50,11 +239,27 @@ struct fpsent : dynent, fpsstate
         respawn();
     }
 
+    void teleport(vec newpos) {
+        resetinterp(); // reset pos n stuff
+
+        physstate = PHYS_FALL;
+        vel = falling = vec(0, 0, 0);
+        floor = vec(0, 0, 1); // reset physics stuff
+
+        this->newpos = newpos;
+    }
+
     std::string GetName() {
+        if (IsBadReadPointer(this)) // im gonna say so many bad words
+            return std::string("");
+
         return std::string(name);
     }
 
     std::string GetTeam() {
+        if (IsBadReadPointer(this))
+            return std::string("");
+
         return std::string(team);
     }
 

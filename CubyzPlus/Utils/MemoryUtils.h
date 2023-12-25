@@ -251,6 +251,21 @@ static uintptr_t findSig(const char* sig) {
 
 }
 
+// https://stackoverflow.com/questions/496034/most-efficient-replacement-for-isbadreadptr
+bool IsBadReadPointer(void* p) {
+    MEMORY_BASIC_INFORMATION mbi = { 0 };
+    if (::VirtualQuery(p, &mbi, sizeof(mbi)))
+    {
+        DWORD mask = (PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY);
+        bool b = !(mbi.Protect & mask);
+        // check the page is not a guard page
+        if (mbi.Protect & (PAGE_GUARD | PAGE_NOACCESS)) b = true;
+
+        return b;
+    }
+    return true;
+}
+
 static uintptr_t findOffset(const char* sig, const char* sidId) {
 
     uintptr_t sigResult = findSig(sig);
@@ -267,3 +282,38 @@ static uintptr_t findOffset(const char* sig, const char* sidId) {
     return sigResult;
 
 }
+
+#define N (624)             
+#define M (397)                
+#define K (0x9908B0DFU)       
+
+static unsigned int state[N];
+static int next = N;
+
+void seedMT(unsigned int seed)
+{
+    state[0] = seed;
+    for (unsigned int i = 1; i < N; i++)
+        state[i] = seed = 1812433253U * (seed ^ (seed >> 30)) + i;
+    next = 0;
+}
+
+unsigned int randomMT()
+{
+    int cur = next;
+    if (++next >= N)
+    {
+        if (next > N) { seedMT(5489U + time(NULL)); cur = next++; }
+        else next = 0;
+    }
+    unsigned int y = (state[cur] & 0x80000000U) | (state[next] & 0x7FFFFFFFU);
+    state[cur] = y = state[cur < N - M ? cur + M : cur + M - N] ^ (y >> 1) ^ (-int(y & 1U) & K);
+    y ^= (y >> 11);
+    y ^= (y << 7) & 0x9D2C5680U;
+    y ^= (y << 15) & 0xEFC60000U;
+    y ^= (y >> 18);
+    return y;
+}
+
+#define loopk(m) loop(k,m)
+#define rnd(x) ((int)(randomMT()&0x7FFFFFFF)%(x))

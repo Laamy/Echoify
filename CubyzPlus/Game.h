@@ -46,6 +46,20 @@ namespace Game {
 
 			return false;
 		}
+
+		static void ClickLeft() {
+			INPUT    Input = { 0 };
+			// left down 
+			Input.type = INPUT_MOUSE;
+			Input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
+			SendInput(1, &Input, sizeof(INPUT));
+			Sleep(25);
+			// left up
+			ZeroMemory(&Input, sizeof(INPUT));
+			Input.type = INPUT_MOUSE;
+			Input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
+			SendInput(1, &Input, sizeof(INPUT));
+		}
 	};
 
 	static fpsent* fpsEntPtr = nullptr;
@@ -117,7 +131,8 @@ namespace Game {
 			for (int i = 0; i < Size(); i++) {
 				fpsent* ent = list->entities[i];
 
-				output.push_back(ent);
+				if (!IsBadReadPointer(ent))
+					output.push_back(ent);
 			}
 
 			return output;

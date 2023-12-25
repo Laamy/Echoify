@@ -4,7 +4,7 @@ class Flight : public Module {
 public:
     Flight() : Module::Module("Flight", "Movement", "Fancy PI flight", "yeemi#0", "J") {};
 
-    float speed = 2.5f;
+    float speed = 10;
 
     float degreesToRadians(float degrees) {
         return degrees * (PI / 180.0f);
@@ -58,6 +58,6 @@ public:
         /*else if (player->crouching)
             player->vel.z = -(speed / 2);*/
 
-        player->vel.y = velocity.z;
+        player->vel.y = velocity.z / 100;
     };
 };
