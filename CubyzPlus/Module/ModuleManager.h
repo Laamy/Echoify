@@ -38,7 +38,7 @@ void InitMods() { // the commented TODO modules are most likely confirmed module
 	modules.push_back(new Flight());
 	modules.push_back(new Speed());
 	// TODO: AntiVoid - falling into death pits while hacking hard sucks
-	// TODO: FastSpot - instantly stop moving when letting go of any keys (velocity, ect)
+	// TODO: FastStop - instantly stop moving when letting go of any keys (velocity, ect)
 	// TODO: HighJump - allow controlling of the jump height
 
 	// player
