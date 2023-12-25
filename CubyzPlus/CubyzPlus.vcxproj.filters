@@ -176,12 +176,6 @@
     <ClInclude Include="Module\Modules\Flight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Module\Modules\ImShort.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Modules\InfAmmo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Module\Modules\Speed.h">
       <Filter>Header Files</Filter>
     </ClInclude>

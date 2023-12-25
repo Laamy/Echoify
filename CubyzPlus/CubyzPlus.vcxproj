@@ -205,8 +205,6 @@
     <ClInclude Include="Module\Modules\TabUI.h" />
     <ClInclude Include="Module\Modules\Tracers.h" />
     <ClInclude Include="Module\Modules\Flight.h" />
-    <ClInclude Include="Module\Modules\ImShort.h" />
-    <ClInclude Include="Module\Modules\InfAmmo.h" />
     <ClInclude Include="Module\Modules\Speed.h" />
     <ClInclude Include="Module\Setting.h" />
     <ClInclude Include="UI\tabui\tabui.h" />
