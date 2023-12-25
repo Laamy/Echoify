@@ -11,6 +11,8 @@
 #include "Modules/NoClip.h"
 #include "Modules/Tpaura.h"
 #include "Modules/TestModule.h"
+#include "Modules/AutoRespawn.h"
+#include "Modules/StreamMode.h"
 
 void InitMods() { // the commented TODO modules are most likely confirmed modules im gonna be working on
 	// combat
@@ -35,7 +37,7 @@ void InitMods() { // the commented TODO modules are most likely confirmed module
 	// TODO: AntiBot - allow control over what ESP, aimbot, tracers, ect can hook onto
 	// TODO: NoLagBack - prevents the server from changing your server side position freely
 	// TODO: AntiImmobile - prevents the server from locking your position (so you can move after games end, ect)
-	// TODO: StreamerMode - Change your username/ms
+	modules.push_back(new StreamMode());
 
 	// movement
 	//modules.push_back(new Flight()); 
@@ -50,6 +52,7 @@ void InitMods() { // the commented TODO modules are most likely confirmed module
 	// TODO: Velocity - nothing modifies ur velocity values other then ur movement keys
 	// TODO: Phase - phase through walls
 	modules.push_back(new NoClip());
+	modules.push_back(new AutoRespawn());
 	// TODO: FreeCam - allow the camera to fly freely
 
 	// world

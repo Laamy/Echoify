@@ -22,5 +22,18 @@ public:
 				list->AddRect(ImVec2(screenOut.x - 8, screenOut.y - 8), ImVec2(screenOut.x + 8, screenOut.y + 15), colour, 1);
 			}
 		}
+
+		// niggers
+		for (fpsent* plyr : Game::Players::GetSpectating()) {
+			ImVec2 screenOut;
+			if (Game::ViewMatrix::WorldToScreen(plyr->newpos, screenOut, displaySize)) {
+				ImDrawList* list = ImGui::GetBackgroundDrawList();
+
+				ImU32 colour = ImU32(0xFFFF0000);
+
+				list->AddText(NULL, 18, ImVec2(screenOut.x - 8, screenOut.y - 20), colour, plyr->GetName().c_str());
+				list->AddRect(ImVec2(screenOut.x - 8, screenOut.y - 8), ImVec2(screenOut.x + 8, screenOut.y + 15), colour, 1);
+			}
+		}
 	}
 };

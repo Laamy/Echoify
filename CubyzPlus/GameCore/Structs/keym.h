@@ -25,6 +25,14 @@ struct keym
             actions[i] = newstring("");
     }
 
+    keym(int code, const char* name, bool held) : code(code),
+        name(newstring(name)),
+        pressed(held)
+    {
+        loopi(NUMACTIONS)
+            actions[i] = newstring("");
+    }
+
     ~keym() {
         DELETEA(name);
 

@@ -32,8 +32,9 @@ public:
 		if (!IsBadReadPointer(closestEntity->name))
 		{
 			vec ne = closestEntity->newpos;
+			vec ce = closestEntity->vel;
 
-			Game::GetLocalPlayer()->teleport(vec(ne.x, ne.y, ne.z - 15));
+			Game::GetLocalPlayer()->teleport(vec(ne.x + (ce.x / 12), ne.y + (ce.y / 12), ne.z - 15));
 
 			if (closestEntity != nullptr) {
 				vec src = Game::GetLocalPlayer()->newpos;

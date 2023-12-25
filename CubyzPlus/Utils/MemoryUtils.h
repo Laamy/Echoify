@@ -17,6 +17,17 @@ R CallFunc(uintptr_t func, Args... args) {
     return ((R(*)(Args...))func)(args...);
 }
 
+struct stringslice
+{
+    const char* str;
+    int len;
+    stringslice() {}
+    stringslice(const char* str, int len) : str(str), len(len) {}
+    stringslice(const char* str, const char* end) : str(str), len(int(end - str)) {}
+
+    const char* end() const { return &str[len]; }
+};
+
 inline char* copystring(char* d, const char* s, size_t len)
 {
     size_t slen = min(strlen(s), len - 1);
@@ -25,6 +36,15 @@ inline char* copystring(char* d, const char* s, size_t len)
     return d;
 }
 template<size_t N> inline char* copystring(char(&d)[N], const char* s) { return copystring(d, s, N); }
+
+inline char* copystring(char* d, const stringslice& s, size_t len)
+{
+    size_t slen = min(size_t(s.len), len - 1);
+    memcpy(d, s.str, slen);
+    d[slen] = 0;
+    return d;
+}
+template<size_t N> inline char* copystring(char(&d)[N], const stringslice& s) { return copystring(d, s, N); }
 
 inline char* newstring(size_t l) { return new char[l + 1]; }
 inline char* newstring(const char* s, size_t l) { return copystring(newstring(l), s, l + 1); }

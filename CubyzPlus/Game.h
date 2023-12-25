@@ -150,6 +150,17 @@ namespace Game {
 			return output;
 		}
 
+		static std::vector<fpsent*> GetSpectating() {
+			std::vector<fpsent*> output;
+
+			for (fpsent* ent : GetFiltered()) {
+				if ((ent->state == CS_SPECTATOR || ent->state == CS_EDITING) && ent != Game::GetLocalPlayer())
+					output.push_back(ent);
+			}
+
+			return output;
+		}
+
 		static fpsent* ClosestEnemy() {
 			fpsent* closestEntity = nullptr;
 

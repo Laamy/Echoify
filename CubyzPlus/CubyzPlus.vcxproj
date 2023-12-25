@@ -201,8 +201,10 @@
     <ClInclude Include="Module\Module.h" />
     <ClInclude Include="Module\ModuleManager.h" />
     <ClInclude Include="Module\Modules\Aimbot.h" />
+    <ClInclude Include="Module\Modules\AutoRespawn.h" />
     <ClInclude Include="Module\Modules\ESP.h" />
     <ClInclude Include="Module\Modules\NoClip.h" />
+    <ClInclude Include="Module\Modules\StreamMode.h" />
     <ClInclude Include="Module\Modules\TabUI.h" />
     <ClInclude Include="Module\Modules\TestModule.h" />
     <ClInclude Include="Module\Modules\Tpaura.h" />

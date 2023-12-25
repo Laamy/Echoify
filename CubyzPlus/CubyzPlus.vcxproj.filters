@@ -215,6 +215,12 @@
     <ClInclude Include="Module\Modules\Tpaura.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Module\Modules\AutoRespawn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Modules\StreamMode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

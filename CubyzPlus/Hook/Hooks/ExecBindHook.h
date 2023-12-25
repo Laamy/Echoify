@@ -36,6 +36,10 @@ void execbindDetour(keym* k, bool isdown) { // isdown arguemnt is useless btw cu
 	return CallFunc<void, keym*, bool>(__o__execbind, k, isdown);
 }
 
+void PostKey(keym* key) {
+	execbindDetour(key, key->pressed);
+}
+
 class ExecBindHook : public FuncHook {
 public:
 	bool Initialize() override {
