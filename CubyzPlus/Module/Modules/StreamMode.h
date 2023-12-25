@@ -13,23 +13,23 @@ public:
 		std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
 		std::chrono::duration<int> elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime - lastTime);
 
-		if (elapsedTime.count() >= 2) {
+		if (elapsedTime.count() >= 10) {
 			//std::cout << "second passed" << std::endl;
 
-			//std::stringstream ss;
+			std::stringstream ss;
 
-			//char c;
-			//int r;
-			//for (int i = 0; i < 10; i++)
-			//{
-			//	r = rand() % 26;   // generate a random number
-			//	c = 'a' + r;            // Convert to a character from a-z
-			//	ss << c;
-			//}
+			char c;
+			int r;
+			for (int i = 0; i < 1; i++)
+			{
+				r = rand() % 26;   // generate a random number
+				c = 'a' + r;            // Convert to a character from a-z
+				ss << c;
+			}
 
 			//Game::GetLocalPlayer()->SetName(ss.str().c_str());
 
-			Game::GetLocalPlayer()->SetName(Game::Players::ClosestEnemy()->GetName().c_str());
+			Game::GetLocalPlayer()->SetName((Game::Players::ClosestEnemy()->GetName() + ss.str()).c_str());
 
 			lastTime = currentTime;
 		}
