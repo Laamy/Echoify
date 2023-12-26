@@ -53,6 +53,10 @@ public:
 
 			Game::GetLocalPlayer()->attacking = true;
 		}
+		//else {
+		//	if (Game::Players::GetFiltered().size() > 1)
+		//		Game::Disconnect(); // dont risk it
+		//}
 
 		//Game::Keymap::ClickLeft();
 	}

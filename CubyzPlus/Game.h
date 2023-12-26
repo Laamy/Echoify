@@ -68,6 +68,10 @@ namespace Game {
 		return fpsEntPtr;
 	}
 
+	void Disconnect() {
+		CallFunc<void, bool, bool>(range_start + 0x12B5E0, true, true);
+	}
+
 	void Uninitialize() {
 		fpsEntPtr = nullptr; // not needed
 		Keymap::map = {};

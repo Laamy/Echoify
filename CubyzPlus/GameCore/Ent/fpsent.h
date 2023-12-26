@@ -284,6 +284,14 @@ struct fpsent : dynent, fpsstate
         attacking = !attacking;
     }
 
+    void TryRespawn() {
+        CallFunc<bool, int, const char*, fpsent*>(range_start + 0x1E6E50, N_TRYSPAWN, "rc", this);
+    }
+
+    void Suicide() {
+        CallFunc<bool, int, const char*, fpsent*>(range_start + 0x1E6E50, N_SUICIDE, "rc", this);
+    }
+
     void teleport(vec newpos) {
         resetinterp(); // reset pos n stuff
 
@@ -294,6 +302,20 @@ struct fpsent : dynent, fpsstate
         this->newpos = newpos;
     }
 
+    //void ServerSideTeamExploit(const char* newTeam) {
+    //    std::stringstream ss;
+
+    //    for (int i = 0; i < 260; i++)
+    //    {
+    //        ss << "a";
+    //    }
+
+    //    std::string oldName = this->GetName();
+    //    this->SetName((ss.str() + newTeam).c_str());
+    //    Sleep(250);
+    //    this->SetName(oldName.c_str());
+    //}
+
     void SetName(const char* str) {
         if (IsBadReadPointer(this))
             return;
@@ -301,6 +323,10 @@ struct fpsent : dynent, fpsstate
         strcpy(name, newstring(str));
 
         CallFunc<bool, int, const char*, const char*>(range_start + 0x1E6E50, N_SWITCHNAME, "rs", GetName().c_str());
+    }
+
+    void SendMsg(const char* name) {
+        CallFunc<bool, int, const char*, fpsent*, const char*>(range_start + 0x1E6E50, N_TEXT, "rcs", this, name);
     }
 
     std::string GetName() {
