@@ -221,6 +221,9 @@
     <ClInclude Include="Module\Modules\StreamMode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Module\Modules\RageBot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

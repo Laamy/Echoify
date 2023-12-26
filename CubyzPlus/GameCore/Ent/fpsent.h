@@ -37,17 +37,9 @@ enum
     NUMMSG
 };
 
-// pasted from ROBLOX source print stuff
-bool addmsg(int type, const char* fmt, ...) {
-    va_list args;
-    va_start(args, fmt);
-
-    char buffer[256];  // Adjust the buffer size as needed
-    vsnprintf(buffer, sizeof(buffer), fmt, args);
-
-    va_end(args);
-
-    return CallFunc<bool, int, const char*>(range_start + 0x1E6E50, type, buffer);
+template <typename... Args>
+bool addmsg(int type, const char* fmt, Args... args) {
+    return CallFunc<bool, int, const char*, Args...>(range_start + 0x1E6E50, type, fmt, args...);
 }
 
 //template<class T>
@@ -285,11 +277,11 @@ struct fpsent : dynent, fpsstate
     }
 
     void TryRespawn() {
-        CallFunc<bool, int, const char*, fpsent*>(range_start + 0x1E6E50, N_TRYSPAWN, "rc", this);
+        addmsg(N_TRYSPAWN, "rc", this);
     }
 
     void Suicide() {
-        CallFunc<bool, int, const char*, fpsent*>(range_start + 0x1E6E50, N_SUICIDE, "rc", this);
+        addmsg(N_SUICIDE, "rc", this);
     }
 
     void teleport(vec newpos) {
@@ -302,31 +294,17 @@ struct fpsent : dynent, fpsstate
         this->newpos = newpos;
     }
 
-    //void ServerSideTeamExploit(const char* newTeam) {
-    //    std::stringstream ss;
-
-    //    for (int i = 0; i < 260; i++)
-    //    {
-    //        ss << "a";
-    //    }
-
-    //    std::string oldName = this->GetName();
-    //    this->SetName((ss.str() + newTeam).c_str());
-    //    Sleep(250);
-    //    this->SetName(oldName.c_str());
-    //}
-
     void SetName(const char* str) {
         if (IsBadReadPointer(this))
             return;
 
-        strcpy(name, newstring(str));
+        strcpy(name, newstring(str)); // this will bug if over 15 characters (or 260 and it'll overwrite client memory) TODO: implement filter
 
-        CallFunc<bool, int, const char*, const char*>(range_start + 0x1E6E50, N_SWITCHNAME, "rs", GetName().c_str());
+        addmsg(N_SWITCHNAME, "rs", GetName().c_str());
     }
 
     void SendMsg(const char* name) {
-        CallFunc<bool, int, const char*, fpsent*, const char*>(range_start + 0x1E6E50, N_TEXT, "rcs", this, name);
+        addmsg(N_TEXT, "rcs", this, name);
     }
 
     std::string GetName() {

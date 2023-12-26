@@ -13,6 +13,7 @@
 #include "Modules/TestModule.h"
 #include "Modules/AutoRespawn.h"
 #include "Modules/StreamMode.h"
+#include "Modules/RageBot.h"
 
 void InitMods() { // the commented TODO modules are most likely confirmed modules im gonna be working on
 	// combat
@@ -69,6 +70,7 @@ void InitMods() { // the commented TODO modules are most likely confirmed module
 	// debug stuff
 #ifdef _DEBUG
 	modules.push_back(new TestModule());
+	modules.push_back(new RageBot());
 #endif // DEBUG
 
 	for (Module* mod : modules) {

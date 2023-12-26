@@ -1,8 +1,46 @@
 #pragma once
 
-class Tpaura : public Module {
+class RageBot : public Module {
 public:
-	Tpaura() : Module::Module("Tpaura", "Combat", "Rage module to instantly kill EVERYONE cuz they r FAGGOTS", "yeemi#0", "9") {};
+	RageBot() : Module::Module("RageBot", "Debug", "Rage bot to kill then disconnect asap", "yeemi#0", "NONE") {};
+
+	std::chrono::steady_clock::time_point lastTime;
+
+	void OnTick(fpsent* player) override {
+		if (player->state == CS_DEAD) {
+			player->TryRespawn();
+		}
+
+		if (player->state == CS_SPECTATOR) {
+			player->SendMsg("spectator is cringe");
+			Game::Disconnect();
+		}
+
+		std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
+		std::chrono::duration<int> elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime - lastTime);
+
+		if (elapsedTime.count() >= 2) {
+
+			std::stringstream ss;
+
+			char c;
+			int r;
+			for (int i = 0; i < 15; i++)
+			{
+				r = rand() % 26;   // generate a random number
+				c = 'a' + r;            // Convert to a character from a-z
+				ss << c;
+			}
+
+			fpsent* closest = Game::Players::ClosestEnemy();
+
+			if (closest && closest->GetName().length() > 3) {
+				Game::GetLocalPlayer()->SetName((closest->GetName()).c_str()); //  + ss.str()
+			}
+
+			lastTime = currentTime;
+		}
+	};
 
 	float lerp(float a, float b, float t) {
 		return a + t * (b - a);
@@ -54,10 +92,14 @@ public:
 			Game::GetLocalPlayer()->attacking = true;
 		}
 		else {
-			if (Game::Players::GetFiltered().size() > 1)
-				Game::Disconnect(); // dont risk it
+			if (Game::Players::GetFiltered().size() > 1) // when loading in theres a split second where this all ticks but it has no players
+				Game::Disconnect(); // disconnect cuz everyones DEAD
 		}
 
 		//Game::Keymap::ClickLeft();
+	}
+
+	void OnDisable() override {
+
 	}
 };
