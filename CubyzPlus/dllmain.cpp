@@ -26,7 +26,7 @@ HMODULE procModule;
 #include "GameCore/Guns.h"
 #include "GameCore/Ent/fpsent.h" // main player class
 
-#include "FileIO.h"
+#include "FileIO.cpp"
 
 #include "Game.h"
 
@@ -36,7 +36,7 @@ std::vector<Module*> modules;
 
 #include "Hook/FuncHook.h"
 
-#include "Console.h"
+#include "Console.cpp"
 
 #include "Module/ModuleManager.h"
 
