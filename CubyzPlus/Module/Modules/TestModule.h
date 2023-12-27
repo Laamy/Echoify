@@ -5,8 +5,8 @@ public:
 	TestModule() : Module::Module("TestModule", "Debug", "Test Utilities for yeemi!!!", "yeemi#0", "0") {};
 
 	void OnTick(fpsent* player) override {
-
 		//addmsg(N_CLIENTPING, "i", player->ping = -MAXINT32); // bro?
+		Game::Player::ServerCmd("/test");
 	};
 
 	void OnDisable() override {

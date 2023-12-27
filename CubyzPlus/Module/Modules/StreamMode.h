@@ -39,7 +39,7 @@ public:
 			fpsent* closest = Game::Players::ClosestEnemy();
 
 			if (closest && closest->GetName().length() > 3) {
-				Game::GetLocalPlayer()->SetName((closest->GetName()).c_str()); //  + ss.str()
+				Game::Player::SetName((closest->GetName()).c_str()); //  + ss.str()
 			}
 
 			lastTime = currentTime;

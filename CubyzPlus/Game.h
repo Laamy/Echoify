@@ -68,9 +68,89 @@ namespace Game {
 		return fpsEntPtr;
 	}
 
-	void Disconnect() {
-		CallFunc<void, bool, bool>(range_start + 0x12B5E0, true, true);
-	}
+	class Player {
+	public:
+		static void Disconnect() {
+			CallFunc<void, bool, bool>(range_start + 0x12B5E0, true, true);
+		}
+
+		static void SetMaster(int clientnumber) {
+			addmsg(N_SETMASTER, "riis", clientnumber, 1, newstring("tempstring"));
+		}
+
+		static void SetMasterMode(int mode) {
+			addmsg(N_MASTERMODE, "ri", mode);
+		}
+
+		static void ServerCmd(const char* cmd) {
+			addmsg(N_SERVCMD, "rs", newstring(cmd));
+		}
+
+		static void TryRespawn() {
+			addmsg(N_TRYSPAWN, "rc", GetLocalPlayer());
+		}
+
+		static void Suicide() {
+			addmsg(N_SUICIDE, "rc", GetLocalPlayer());
+		}
+
+		static void SetName(const char* str) {
+			if (IsBadReadPointer(GetLocalPlayer()))
+				return;
+
+			strcpy(GetLocalPlayer()->name, newstring(str)); // this will bug if over 15 characters (or 260 and it'll overwrite client memory) TODO: implement filter
+
+			addmsg(N_SWITCHNAME, "rs", GetLocalPlayer()->GetName().c_str());
+		}
+
+		static void SendMsg(const char* name) {
+			addmsg(N_TEXT, "rcs", GetLocalPlayer(), name);
+		}
+
+		static void Spawn() {
+			addmsg(N_SPAWN, "rcii", GetLocalPlayer(), GetLocalPlayer()->lifesequence, GetLocalPlayer()->gunselect);
+		}
+
+		static void Pong(int ping) {
+			addmsg(N_CLIENTPING, "i", GetLocalPlayer()->ping = ping);
+		}
+
+		static void SetEditMode(bool on) {
+			addmsg(N_EDITMODE, "ri", on ? 1 : 0);
+		}
+
+		static void ClearBans() {
+			addmsg(N_CLEARBANS, "r");
+		}
+
+		static void Kick(fpsent* target, const char* reason) {
+			addmsg(N_KICK, "ris", target->clientnum, reason);
+		}
+
+		static void SetTeam(fpsent* target, const char* team) {
+			addmsg(N_SETTEAM, "ris", target, team);
+		}
+
+		static void SetSpectator(fpsent* target, bool on) {
+			addmsg(N_SPECTATOR, "rii", target->clientnum, on ? 1 : 0);
+		}
+
+		static void ForceIntermission() {
+			addmsg(N_FORCEINTERMISSION, "r");
+		}
+
+		static void NewMap(int size) {
+			addmsg(N_NEWMAP, "ri", size);
+		}
+
+		static void PauseGame(bool on) {
+			addmsg(N_PAUSEGAME, "ri", on ? 1 : 0);
+		}
+
+		static void changegamespeed(int val) {
+			addmsg(N_GAMESPEED, "ri", val);
+		}
+	};
 
 	void Uninitialize() {
 		fpsEntPtr = nullptr; // not needed

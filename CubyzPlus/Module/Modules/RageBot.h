@@ -8,12 +8,12 @@ public:
 
 	void OnTick(fpsent* player) override {
 		if (player->state == CS_DEAD) {
-			player->TryRespawn();
+			Game::Player::TryRespawn();
 		}
 
 		if (player->state == CS_SPECTATOR) {
-			player->SendMsg("spectator is cringe");
-			Game::Disconnect();
+			Game::Player::SendMsg("spectator is cringe");
+			Game::Player::Disconnect();
 		}
 
 		std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
@@ -35,7 +35,7 @@ public:
 			fpsent* closest = Game::Players::ClosestEnemy();
 
 			if (closest && closest->GetName().length() > 3) {
-				Game::GetLocalPlayer()->SetName((closest->GetName()).c_str()); //  + ss.str()
+				Game::Player::SetName((closest->GetName()).c_str()); //  + ss.str()
 			}
 
 			lastTime = currentTime;
@@ -93,7 +93,7 @@ public:
 		}
 		else {
 			if (Game::Players::GetFiltered().size() > 1) // when loading in theres a split second where this all ticks but it has no players
-				Game::Disconnect(); // disconnect cuz everyones DEAD
+				Game::Player::Disconnect(); // disconnect cuz everyones DEAD
 		}
 
 		//Game::Keymap::ClickLeft();
@@ -102,4 +102,4 @@ public:
 	void OnDisable() override {
 
 	}
-};
+};                                                                                                                                                      

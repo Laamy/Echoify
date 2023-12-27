@@ -7,7 +7,7 @@ public:
 	void OnTick(fpsent* player) override {
 
 		if (player->state == CS_DEAD) {
-			player->TryRespawn();
+			Game::Player::TryRespawn();
 		}
 
 	}

@@ -7,6 +7,8 @@
 #define MAXSTRLEN 260
 typedef char string[MAXSTRLEN];
 
+enum { MM_AUTH = -1, MM_OPEN = 0, MM_VETO, MM_LOCKED, MM_PRIVATE, MM_PASSWORD, MM_START = MM_AUTH };
+
 enum
 {
     N_CONNECT = 0, N_SERVINFO, N_WELCOME, N_INITCLIENT, N_POS, N_TEXT, N_SOUND, N_CDIS,
@@ -276,14 +278,6 @@ struct fpsent : dynent, fpsstate
         attacking = !attacking;
     }
 
-    void TryRespawn() {
-        addmsg(N_TRYSPAWN, "rc", this);
-    }
-
-    void Suicide() {
-        addmsg(N_SUICIDE, "rc", this);
-    }
-
     void teleport(vec newpos) {
         resetinterp(); // reset pos n stuff
 
@@ -292,19 +286,6 @@ struct fpsent : dynent, fpsstate
         floor = vec(0, 0, 1); // reset physics stuff
 
         this->newpos = newpos;
-    }
-
-    void SetName(const char* str) {
-        if (IsBadReadPointer(this))
-            return;
-
-        strcpy(name, newstring(str)); // this will bug if over 15 characters (or 260 and it'll overwrite client memory) TODO: implement filter
-
-        addmsg(N_SWITCHNAME, "rs", GetName().c_str());
-    }
-
-    void SendMsg(const char* name) {
-        addmsg(N_TEXT, "rcs", this, name);
     }
 
     std::string GetName() {
