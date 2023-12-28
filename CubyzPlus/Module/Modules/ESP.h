@@ -10,7 +10,21 @@ public:
 
 		for (fpsent* plyr : Game::Players::GetPlaying()) {
 			ImVec2 screenOut;
-			if (Game::ViewMatrix::WorldToScreen(plyr->newpos, screenOut, displaySize)) {
+			ImVec2 screenOutBottom;
+			if (
+				Game::ViewMatrix::WorldToScreen(
+					vec(
+						plyr->newpos.x - (plyr->radius / 2),
+						plyr->newpos.y - (plyr->radius / 2),
+						plyr->newpos.z + plyr->aboveeye
+					), screenOut, displaySize) &&
+				Game::ViewMatrix::WorldToScreen(
+					vec(
+						plyr->newpos.x + (plyr->radius / 2),
+						plyr->newpos.y + (plyr->radius / 2),
+						plyr->newpos.z - (plyr->eyeheight - plyr->aboveeye)
+					), screenOutBottom, displaySize))
+			{
 				ImDrawList* list = ImGui::GetBackgroundDrawList();
 
 				ImU32 colour = ImU32(0xFF0000FF);
@@ -19,12 +33,12 @@ public:
 					colour = ImColor(0, 255, 0);
 
 				list->AddText(NULL, 18, ImVec2(screenOut.x - 8, screenOut.y - 20), colour, plyr->GetName().c_str());
-				list->AddRect(ImVec2(screenOut.x - 8, screenOut.y - 8), ImVec2(screenOut.x + 8, screenOut.y + 15), colour, 1);
+				list->AddRect(ImVec2(screenOut.x - 8, screenOut.y - 8), ImVec2(screenOutBottom.x, screenOutBottom.y), colour, 1);
 			}
 		}
 
 		// niggers
-		for (fpsent* plyr : Game::Players::GetSpectating()) {
+		/*for (fpsent* plyr : Game::Players::GetSpectating()) {
 			ImVec2 screenOut;
 			if (Game::ViewMatrix::WorldToScreen(plyr->newpos, screenOut, displaySize)) {
 				ImDrawList* list = ImGui::GetBackgroundDrawList();
@@ -34,6 +48,6 @@ public:
 				list->AddText(NULL, 18, ImVec2(screenOut.x - 8, screenOut.y - 20), colour, plyr->GetName().c_str());
 				list->AddRect(ImVec2(screenOut.x - 8, screenOut.y - 8), ImVec2(screenOut.x + 8, screenOut.y + 15), colour, 1);
 			}
-		}
+		}*/
 	}
 };
